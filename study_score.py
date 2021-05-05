@@ -39,18 +39,21 @@ def ask_for_again():
     ask_for_again()
 
 # 1
+# 동명이인일시 (2), (3).. 순차적으로 번호 부여
 def register_stu_score():
+  print('  ' + '-' * 20)
   name = input("  이름 : ")
   score = int(input("  점수 : "))
   stu_list[name] = score
-  print("\n  등록 완료 !!")
-  print('\n  명단 : ', stu_list)
+  print('  ' + '-' * 20)
+  print(f"\n  [{name}] 학생 등록 완료 💕")
+  print('\n  명단 : ', show_stu())
   print()
   ask_for_again()
 
 # 2
 def enquiry_score():
-  stu_name = input("  조회할 학생의 이름 : ")
+  stu_name = input("  조회 할 학생의 이름 : ")
   if stu_name in stu_list:
     print('\n  ' + '-' * 20)
     print(f"  [{stu_name}] 학생의 점수 : {stu_list[stu_name]}")
@@ -62,11 +65,22 @@ def enquiry_score():
 
 # 3
 def enquiry_first_last():
-  print("3 입니다.")
+  num = 0
+  sorted_rank = dict(sorted(stu_list.items(), key=lambda score: score[1], reverse=True))
+  print('  ' + '-' * 20)
+  for i in sorted_rank.items():
+    num += 1
+    if num == 1:
+      print(f"  {num}등 {i[0]}({i[1]})")
+    elif num == len(sorted_rank):
+      print(f"  꼴등 {i[0]}({i[1]})")
+  print('  ' + '-' * 20)
   ask_for_again()
 
 # 4
+# 학생 이름이 없을 시 메시지 추가
 def socre_change():
+  print('  ' + '-' * 20)
   change_stu = input("  점수를 수정할 학생의 이름 : ")
   before_score = stu_list[change_stu]
   change_score = int(input("  수정 할 점수 : "))
@@ -82,19 +96,12 @@ def socre_change():
 def ranking():
   # 순위 번호
   num = 0
-  # 점수 비교 변수
-  # j = 0
-  # 점수 높은 순서대로 저장할 배열 = 랭킹
-  ranking = {}
-
-  # 순위 정하는 알고리즘
-  for i in list(stu_list.items()):
-    for j in i:
-      print(i[1])
-      print(i[0])
-
-  # 저장된 순위 출력하는 알고리즘
-    # print(f"  {num}등 {i[0]}({i[1]})")
+  sorted_rank = dict(sorted(stu_list.items(), key=lambda score: score[1], reverse=True))
+  print('  ' + '-' * 20)
+  for i in sorted_rank.items():
+    num += 1
+    print(f"  {num}등 {i[0]}({i[1]})")
+  print('  ' + '-' * 20)
   ask_for_again()
 
 # 6
@@ -116,13 +123,13 @@ def select_number():
     number = int(input("  번호를 입력하세요. : "))
     print()
     if number == 1:
-      print("  ### 학생 이름, 점수 등록 ###\n")
+      print("  ### 학생 이름, 점수 등록 ###")
       register_stu_score()
     elif number == 2:
       print("  ### 학생 점수 조회 ###")
       enquiry_score()
     elif number == 3:
-      print("  ### 1등과 꼴등 조회 ###\n")
+      print("  ### 1등과 꼴등 조회 ###")
       enquiry_first_last()
     elif number == 4:
       print("  ### 점수 변경 ###")
@@ -135,10 +142,10 @@ def select_number():
       show_stu()
     else:
       print("  ⛔️ 1 ~ 6 사이의 숫자를 입력하십시오.\n")
-      select_number()      
+      select_number()
   except ValueError:
     print("\n  ⛔️ 숫자를 입력하십시오.\n")
-    select_number()
+    show_board()
   except UnboundLocalError:
     print("\n  ⛔️ 숫자를 입력하십시오.\n")
     select_number()
